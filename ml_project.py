@@ -49,6 +49,17 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 #########################################################   Title
 st.title("Digital Transaction Fraud Detection")
+
+st.markdown("""---
+
+## **Dataset Information** 
+""")
+st.text("")
+st.write("The dataset chosen for our project is the “Synthetic Financial Datasets For Fraud \
+    Detection” by the “Norwegian University of Science and Technology” with over 6.3 million \
+    records of mobile transactions. It contains 63,54,407 legitimate transactions  and 8,213 \
+    fraudulent transactions.")
+st.text("")
 #########################################################
 
 
@@ -639,6 +650,11 @@ st.text("")
 st.text("")
 st.markdown(""" **Test Results:** """)
 lr_under_results = model_result(lr_under,X_test_under,y_test_under)
+st.text("")
+st.write("We have a total of 335 misclassified records with, more importantly, 65 false negatives.\
+    We focus on this metric as we want to prioritise detection. To get a more normalized metric for this, \
+    we use the F-score of 0.92. ")
+st.text("")
 
 
 
@@ -690,6 +706,11 @@ st.text("")
 st.text("")
 st.markdown(""" **Test Results:** """)
 lr_over_results = model_result(lr_over,X_test_over,y_test_over)
+st.text("")
+st.write("We have a total of 99,000 misclassified records with, more importantly, 20,000 false negatives. \
+    We focus on this metric as we want to prioritise detection. To get a more normalized metric for this, \
+    we use the F-score of 0.93. ")
+st.text("")
 
 ####################################################################################
 
@@ -731,6 +752,8 @@ X_train_under_cnn, X_test_under_cnn, y_train_under_cnn, y_test_under_cnn = \
 X_val_under_cnn, X_test_under_cnn, y_val_under_cnn, y_test_under_cnn = \
     train_test_split(X_test_under, y_test_under, test_size = test_ratio/(test_ratio + validation_ratio)) 
 
+st.markdown("**We take a 75-15-10 split for training, validation and testing**")
+st.text("")
 st.write(" > **Number of transactions for training:** ", format(len(X_train_under_cnn),',d'))
 st.write(" > **Number of transactions for validation:** ", format(len(X_val_under_cnn),',d'))
 st.write(" > **Number of transactions for testing:** ", format(len(X_test_under_cnn), ',d'))
@@ -775,7 +798,10 @@ st.text("")
 st.markdown(""" **Test Results:** """)
 cnn_under_results = cnn_result(model,X_test_under,y_test_under)
 st.text("")
-
+st.write("We have a total of 800 misclassified records with, more importantly, 800 false negatives.\
+    We focus on this metric as we want to prioritise detection. To get a more normalized metric \
+    for this, we use the F-score of 0.8. ")
+st.text("")
 
 
 ######################################### B. Over Sampling
@@ -845,6 +871,10 @@ st.text("")
 st.text("")
 st.markdown(""" **Test Results:** """)
 cnn_over_results = cnn_result(model,X_test_over,y_test_over)
+st.text("")
+st.write("We have a total of 10,800 misclassified records with, more importantly, 2,900 false negatives.\
+    We focus on this metric as we want to prioritise detection. To get a more normalized metric for this, \
+    we use the F-score of 0.992. ")
 st.text("")
 
 ############################################################################
@@ -960,7 +990,10 @@ plt.title('Learning curves indicate slightly underfit model', size = 20)
 
 st.pyplot(fig)
 st.text("")
-
+st.write("We have a total of 6 misclassified records with, more importantly, 5 false negatives.\
+    We focus on this metric as we want to prioritise detection. To get a more normalized metric \
+    for this, we use the F-score of 0.999. ")
+st.text("")
 ###########################################################################################
 
 
@@ -1040,6 +1073,11 @@ st.pyplot(fig)
 st.markdown(""" **Test Results:** """)
 cat_results = model_result(model_cat,X_test_cat,y_test_cat)
 st.text("")
+st.write("We have a total of 4 misclassified records with, more importantly,\
+    4 false negatives. We focus on this metric as we want to prioritise detection. \
+    To get a more normalized metric for this, we use the F-score of 0.999. ")
+st.text("")
+
 
 ##############################################################################
 
@@ -1077,4 +1115,17 @@ results = pd.DataFrame({"Model":label_rows, "Accuracy": acc, "Recall":recall, "F
 results.columns = label_cols
 st.dataframe(results.head(6))
 st.text("")
+st.text("")
 
+st.write("Hence we can see that fraudulent transactions are generally of 2 types: ‘Cash Transfer’\
+    and ‘Cash In’ which helps us narrow down future records for analysis as these categories must \
+    be paid attention to. We also see by plotting a strip plot of both legitimate and fraudulent \
+    transactions that legitimate transactions are far more homogeneous in nature and spread out over \
+    time whereas fraudulent transactions are more clustered together and occur in shorter bursts of time.")
+st.text("")
+st.write(" We conclude that the most suitable model for our problem is the CATBoost model as it offers some of the \
+    best results in terms of performance metrics such as accuracy, F-score and AUPRC while also balancing the \
+    time taken to update internal decision trees and perform new predictions. We especially choose this over XGBoost \
+    due to its greater resource consumption for predictions and time taken. All in all, boosting algorithms seem to \
+    be superior compared to traditional machine learning and deep learning models which is to be expected due to their \
+    tolerance for class imbalance.")
